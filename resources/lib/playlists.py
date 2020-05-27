@@ -135,7 +135,7 @@ def setEditPlaylist(id, set, type=''):
         else:
             i = 'true'
     elif set == 'published':
-        elem = m_xml.xml_get_elem('playlists/playlist', 'playlist', {'id': id}, type=type) #Find this playlist so we can grab the value of the settings
+        elem = m_xml.xml_get_elem('playlists/playlist', 'playlist', {'id': id}, type=type) #Find this playlist so we can grab the value of the settings             #tofofxml - here we need to either have id be different or to look at extra in addition to id
         setting = str(elem.find(set).text) #Convert the setting to a string so we can input it safely
         if setting == None or setting == 'None':
             setting = '01/01/1901'

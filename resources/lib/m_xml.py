@@ -632,7 +632,7 @@ def xml_update_playlist_setting(id, tag, newsetting, type=''):
         # whereTxt: The element that should be found should contain this text. (In the examples case: 'sometext' would find the correct user     
         # playlist: The playlist id if we should grab a episodenr/playlist.xml instead of the settings.xml
         # type: The type of playlist we would like to select. tv (''), musicvideo, music, movies
-def xml_get_elem(path, tag, whereAttrib=False, whereTxt=False, playlist=False, type=''):    
+def xml_get_elem(path, tag, whereAttrib=False, whereTxt=False, playlist=False, type=''):                    #tofofxml
     dev.log('XML_get_elem('+type+')')
     if playlist == False:
         xml_get(type) # Grab the xml file
@@ -690,18 +690,19 @@ def playlist_create_xml(playlist, type=''):
     #Append this playlist to the new created xml file
     #newxml.append(playlist)
     #Write this new xml to the settings.xml file
-    write_xml(root, dev.typeEpnr(type), playlist+'.xml')
-    dev.log('playlist_create_xml: Created new '+dev.typeEpnr(type)+'/'+playlist+'.xml')
+    write_xml(root, dev.typeEpnr(type), playlist+'.xml')    #TOFOFxml
+    dev.log('playlist_create_xml: Created new '+dev.typeEpnr(type)+'/'+playlist+'.xml')     #TOFOFxml
 
 #Loads the playlist episodes xml document
 #type: tv (''), musicvideo, music, movies        
+#TOFOFxml
 def playlist_xml_get(playlist, type=''):
     dev.log('playlist_XML_get('+type+')')
-    if xbmcvfs.exists(os.path.join(vars.settingsPath,dev.typeEpnr(type)+"/"+playlist+".xml")) == False: #If the episodes.xml file can't be found, we should create this file
+    if xbmcvfs.exists(os.path.join(vars.settingsPath,dev.typeEpnr(type)+"/"+playlist+".xml")) == False: #If the episodes.xml file can't be found, we should create this file    #TOFOFxml
         playlist_create_xml(playlist, type=type)
     
     global playlistdocument #Set the document variable as global, so every function can reach it
-    playlistdocument = ElementTree.parse( vars.settingsPath+dev.typeEpnr(type)+'/'+playlist+'.xml' )
+    playlistdocument = ElementTree.parse( vars.settingsPath+dev.typeEpnr(type)+'/'+playlist+'.xml' )    #TOFOFxml
     return playlistdocument
 
 
@@ -731,7 +732,7 @@ def episode_exists(playlist, episode, season_tag='season', episode_tag='episode'
 
 
 #Adds the playlist to the xml if it does not exist yet, and retrieves information about the playlist
-def playlist_add_season(playlist, season, season_tag='season', type=''):
+def playlist_add_season(playlist, season, season_tag='season', type=''):            #here, playlist is the 'playlist id'
     dev.log('playlist_add_season('+season+')')
     #Check if this playlist isnt in the xml file yet
     #if xml_get_elem('season', 'episode', {'id' : id}, playlist=playlist) is None:
@@ -742,12 +743,12 @@ def playlist_add_season(playlist, season, season_tag='season', type=''):
     elem = Element(season_tag, attr)
     root = doc.getroot()
     root.insert(0, elem)
-    write_xml(root, dir=dev.typeEpnr(type), output=playlist+'.xml')
-    dev.log('Added '+season_tag+': '+season+' in '+dev.typeEpnr(type)+'/'+playlist+'.xml')
+    write_xml(root, dir=dev.typeEpnr(type), output=playlist+'.xml') #TOFOFxml
+    dev.log('Added '+season_tag+': '+season+' in '+dev.typeEpnr(type)+'/'+playlist+'.xml')  #TOFOFxml
     #else:
         #dev.log('playlist_add_episode: not added episode '+id+' since the episode already exists')    #Adds the playlist to the xml if it does not exist yet, and retrieves information about the playlist
 
-def playlist_add_episode(playlist, season, id, season_tag='season', type=''):
+def playlist_add_episode(playlist, season, id, season_tag='season', type=''):       #tofofxml here, playlist is the 'playlist id' and id is the 'video id'
     dev.log('playlist_add_episode('+season+','+id+', type='+type+')')
     #Check if this playlist isnt in the xml file yet
     #if xml_get_elem('season', 'episode', {'id' : id}, playlist=playlist) is None:
@@ -770,8 +771,8 @@ def playlist_add_episode(playlist, season, id, season_tag='season', type=''):
     s.insert(0, elem)
     root = playlistdocument.getroot()
     
-    write_xml(root, dir=dev.typeEpnr(type), output=playlist+'.xml')
-    dev.log('Added the episode '+id+' to '+season_tag+': '+season+' in '+dev.typeEpnr(type)+'/'+playlist+'.xml')
+    write_xml(root, dir=dev.typeEpnr(type), output=playlist+'.xml') #TOFOFxml
+    dev.log('Added the episode '+id+' to '+season_tag+': '+season+' in '+dev.typeEpnr(type)+'/'+playlist+'.xml')    #TOFOFxml
     #else:
         #dev.log('playlist_add_episode: not added episode '+id+' since the episode already exists')    
 
